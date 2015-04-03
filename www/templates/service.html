@@ -1,0 +1,14 @@
+<ion-view view-title="Service">
+  <ion-content>
+  	<div class="list">
+	    <div class="card st_{{subService.status}}" ng-repeat="subService in subServices">
+			<div class="item item-divider">
+	    		{{subService.title}}
+	  		</div>
+			<div class="item item-text-wrap">
+				{{subService.message}}
+			</div>
+		</div>
+	</div>
+  </ion-content>
+</ion-view>

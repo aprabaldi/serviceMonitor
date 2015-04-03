@@ -1,0 +1,12 @@
+/* Empty. Add your own CSS if you like */
+.st_error {
+	border-bottom: 4px solid red;
+}
+
+.st_warning {
+	border-bottom: 4px solid orange;
+}
+
+.st_ok {
+	border-bottom: 4px solid green;
+}
