@@ -41,7 +41,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   })
 
   .state('app.server', {
-    url: "/servers/:serverId",
+    url: "/server/:serverId",
     views: {
       'menuContent': {
         templateUrl: "templates/server.html",

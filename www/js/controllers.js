@@ -1,5 +1,9 @@
 angular.module('starter.controllers', [])
 
+.constant('extServer', {
+  'url': 'http://192.168.10.108:3535'
+})
+
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
   // Form data for the login modal
   $scope.loginData = {};
@@ -33,33 +37,36 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('ServersCtrl', function($scope) {
+.controller('ServersCtrl', function($scope, $http, extServer) {
   //GET FROM API
-  $scope.servers = [
-    { title: 'ws1', id: 1, status: 'error' },
-    { title: 'ws2', id: 2, status: 'warning' },
-    { title: 'mq-sms01', id: 3, status: 'ok' },
-    { title: 'mq-sms-nevada', id: 4, status: 'ok' },
-    { title: 'mq-sms', id: 5, status: 'ok' },
-    { title: 'ws-sms', id: 6, status: 'warning' },
-    { title: 'marketing-api', id: 7, status: 'error' }
-  ];
+  $scope.servers = [];
+  $http.get(extServer.url + '/servers').then(function(resp) {
+    if(resp.data.ok)
+        $scope.servers = resp.data.servers;
+  }, function(err) {
+    console.error('ERR', err);
+    // err.status will contain the status code
+  });
 })
 
-.controller('ServerCtrl', function($scope, $stateParams) {
-  //GET INFO FROM API
-  $scope.services = [
-    { title: 'smsop', id: 1, status: 'error'},
-    { title: 'smsconsulta', id: 2 , status: 'warning'},
-    { title: 'clasificador', id: 3 , status: 'ok' }
-  ];
+.controller('ServerCtrl', function($scope, $stateParams, $http, extServer) {
+  $scope.services = [];
+  $http.get(extServer.url + '/services', {params: { serverId: $stateParams.serverId }}).then(function(resp) {
+    if(resp.data.ok)
+        $scope.services = resp.data.services;
+  }, function(err) {
+    console.error('ERR', err);
+    // err.status will contain the status code
+  });
 })
 
-.controller('ServiceCtrl', function($scope, $stateParams) {
-  //GET INFO FROM API
-  $scope.subServices = [
-    { status: 'error', message: 'Failed', id: 1, title: 'Claro'},
-    { status: 'warning', message: 'Something went wrong... Running anyway', id: 2, title: 'Personal'},
-    { status: 'ok', message: 'Service is running.', id: 3, title: 'Movistar'}
-  ];
+.controller('ServiceCtrl', function($scope, $stateParams, $http, extServer) {
+  $scope.subServices = [];
+  $http.get(extServer.url + '/service', {params: { serviceId: $stateParams.serviceId }}).then(function(resp) {
+    if(resp.data.ok)
+        $scope.subServices = resp.data.service;
+  }, function(err) {
+    console.error('ERR', err);
+    // err.status will contain the status code
+  });
 });
